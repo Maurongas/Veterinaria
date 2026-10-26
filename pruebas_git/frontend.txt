@@ -1,0 +1,12 @@
+SISTEMA VETERINARIO
+PRUEBA DE GITHUB DESKTOP
+Rol: Frontend
+Responsabilidad inicial:
+Desarrollar la futura interfaz
+del Sistema Veterinario.
+Rama:
+frontend
+Estado:
+Prueba realizada correctamente.
+Alumno:
+Veronica
