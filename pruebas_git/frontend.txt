@@ -9,4 +9,4 @@ frontend
 Estado:
 Prueba realizada correctamente.
 Alumno:
-NOMBRE DEL FRONTEND
+Veronica
