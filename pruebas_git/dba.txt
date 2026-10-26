@@ -1,0 +1,12 @@
+SISTEMA VETERINARIO
+PRUEBA DE GITHUB DESKTOP
+Rol: DBA
+Responsabilidad inicial:
+Administrar la futura base de datos
+del Sistema Veterinario.
+Rama:
+dba
+Estado:
+Prueba realizada correctamente.
+Alumno:
+Josselyn
