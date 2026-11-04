@@ -6,13 +6,13 @@ Ambientes de Programación Visual
 ## Equipo
 
 Backend:
-Nombre del alumno
+Mauro Arango
 
 Frontend:
-Nombre del alumno
+Veronica Acevedo
 
 DBA:
-Nombre del alumno
+Josselyn Rivera
 
 ## Ramas de trabajo
 
