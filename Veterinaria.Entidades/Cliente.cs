@@ -1,3 +1,4 @@
+using Veterinaria.Entidades;
 using System.ComponentModel.DataAnnotations;
 
 namespace Veterinaria.Entidades;
