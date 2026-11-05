@@ -1,7 +1,16 @@
+using Veterinaria.Datos;
+using Veterinaria.Negocios;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<Conexion>();
+builder.Services.AddScoped<ClienteDatos>();
+builder.Services.AddScoped<MascotaDatos>();
+builder.Services.AddScoped<ClienteNegocio>();
+builder.Services.AddScoped<MascotaNegocio>();
 
 var app = builder.Build();
 
