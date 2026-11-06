@@ -8,10 +8,4 @@ public static class ConfiguracionNegocio
     {
         Conexion.CadenaConexion = cadenaConexion;
     }
-
-    public static int ProbarConexion()
-    {
-        var datos = new ClienteDatos();
-        return datos.ObtenerTotalClientes();
-    }
 }
