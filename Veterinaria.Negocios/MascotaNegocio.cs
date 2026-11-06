@@ -5,31 +5,40 @@ namespace Veterinaria.Negocios;
 
 public class MascotaNegocio
 {
-    private readonly MascotaDatos _mascotaDatos;
+    private readonly MascotaDatos _datos = new();
 
-    public MascotaNegocio(MascotaDatos mascotaDatos)
+    public List<Mascota> Listar() => _datos.Listar();
+
+    public List<Mascota> ListarPorCliente(int idCliente)
     {
-        _mascotaDatos = mascotaDatos;
+        if (idCliente <= 0)
+            return new List<Mascota>();
+
+        return _datos.ListarPorCliente(idCliente);
     }
 
-    public List<Mascota> ObtenerPorCliente(int idCliente) => _mascotaDatos.ObtenerPorCliente(idCliente);
-
-    public bool Agregar(Mascota mascota)
+    public Mascota? BuscarPorId(int idMascota)
     {
-        if (mascota.IdCliente <= 0)
-            throw new ArgumentException("Debe seleccionar un cliente válido.");
+        if (idMascota <= 0)
+            return null;
 
-        if (string.IsNullOrWhiteSpace(mascota.Nombre))
-            throw new ArgumentException("El nombre de la mascota es obligatorio.");
+        return _datos.BuscarPorId(idMascota);
+    }
 
-        if (mascota.FechaNacimiento.HasValue &&
-            mascota.FechaNacimiento.Value.Date > DateTime.Today)
-        {
-            throw new ReglaNegocioException(
-                "La fecha de nacimiento no puede ser futura.");
-        }
+    public int Agregar(Mascota mascota)
+    {
+        Validar(mascota);
+        return _datos.Agregar(mascota);
+    }
 
-        return _mascotaDatos.Agregar(mascota);
+    public bool Modificar(Mascota mascota)
+    {
+        Validar(mascota);
+
+        if (mascota.IdMascota <= 0)
+            throw new ArgumentException("Mascota no válida.");
+
+        return _datos.Modificar(mascota);
     }
 
     public bool Eliminar(int idMascota)
@@ -37,17 +46,37 @@ public class MascotaNegocio
         if (idMascota <= 0)
             throw new ArgumentException("Mascota no válida.");
 
-        Mascota? mascota = _mascotaDatos.BuscarPorId(idMascota);
+        Mascota? mascota = _datos.BuscarPorId(idMascota);
 
         if (mascota is null)
             return false;
 
-        if (_mascotaDatos.TieneConsultas(idMascota))
+        if (_datos.TieneConsultas(idMascota))
         {
             throw new ReglaNegocioException(
-                "No se puede eliminar la mascota porque tiene consultas registradas.");
+                "No se puede eliminar la mascota " +
+                "porque tiene consultas registradas.");
         }
 
-        return _mascotaDatos.Eliminar(idMascota);
+        return _datos.Eliminar(idMascota);
+    }
+
+    private static void Validar(Mascota mascota)
+    {
+        if (mascota.IdCliente <= 0)
+            throw new ArgumentException("Debe seleccionar un cliente válido.");
+
+        if (string.IsNullOrWhiteSpace(mascota.Nombre))
+            throw new ArgumentException("El nombre de la mascota es obligatorio.");
+
+        if (string.IsNullOrWhiteSpace(mascota.Especie))
+            throw new ArgumentException("La especie es obligatoria.");
+
+        if (mascota.FechaNacimiento.HasValue &&
+            mascota.FechaNacimiento.Value.Date > DateTime.Today)
+        {
+            throw new ArgumentException(
+                "La fecha de nacimiento no puede ser futura.");
+        }
     }
 }

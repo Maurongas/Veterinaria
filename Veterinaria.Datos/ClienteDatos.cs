@@ -5,63 +5,57 @@ namespace Veterinaria.Datos;
 
 public class ClienteDatos
 {
-    public ClienteDatos()
-    {
-    }
-
-    public int ObtenerTotalClientes()
-    {
-        using var conn = new MySqlConnection(Conexion.CadenaConexion);
-        conn.Open();
-
-        using var cmd = new MySqlCommand("SELECT COUNT(*) FROM Cliente;", conn);
-        return Convert.ToInt32(cmd.ExecuteScalar());
-    }
-
-    public List<Cliente> ObtenerTodos()
+    public List<Cliente> Listar()
     {
         var lista = new List<Cliente>();
-        using var conn = new MySqlConnection(Conexion.CadenaConexion);
-        conn.Open();
 
-        string query = "SELECT id_cliente, nombre, apellido_paterno, apellido_materno, telefono, correo, direccion, fecha_registro FROM clientes ORDER BY apellido_paterno, nombre;";
-        using var cmd = new MySqlCommand(query, conn);
-        using var reader = cmd.ExecuteReader();
+        using MySqlConnection cn = Conexion.Crear();
+        cn.Open();
+
+        const string sql = """
+            SELECT id_cliente, nombre, apellido_paterno, apellido_materno,
+                   telefono, correo, direccion, fecha_registro
+            FROM cliente
+            ORDER BY apellido_paterno, nombre;
+            """;
+
+        using MySqlCommand cmd = new(sql, cn);
+        using MySqlDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
-        {
-            lista.Add(new Cliente
-            {
-                IdCliente = reader.GetInt32("id_cliente"),
-                Nombre = reader.GetString("nombre"),
-                ApellidoPaterno = reader.GetString("apellido_paterno"),
-                ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("apellido_materno")) ? null : reader.GetString("apellido_materno"),
-                Telefono = reader.GetString("telefono"),
-                Correo = reader.IsDBNull(reader.GetOrdinal("correo")) ? null : reader.GetString("correo"),
-                Direccion = reader.IsDBNull(reader.GetOrdinal("direccion")) ? null : reader.GetString("direccion"),
-                FechaRegistro = reader.GetDateTime("fecha_registro")
-            });
-        }
+            lista.Add(Mapear(reader));
+
         return lista;
     }
 
-    public bool Agregar(Cliente cliente)
+    public List<Cliente> Buscar(string termino)
     {
-        using var conn = new MySqlConnection(Conexion.CadenaConexion);
-        conn.Open();
+        var lista = new List<Cliente>();
 
-        string query = @"INSERT INTO clientes (nombre, apellido_paterno, apellido_materno, telefono, correo, direccion) 
-                        VALUES (@nombre, @paterno, @materno, @telefono, @correo, @direccion);";
+        using MySqlConnection cn = Conexion.Crear();
+        cn.Open();
 
-        using var cmd = new MySqlCommand(query, conn);
-        cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
-        cmd.Parameters.AddWithValue("@paterno", cliente.ApellidoPaterno);
-        cmd.Parameters.AddWithValue("@materno", (object?)cliente.ApellidoMaterno ?? DBNull.Value);
-        cmd.Parameters.AddWithValue("@telefono", cliente.Telefono);
-        cmd.Parameters.AddWithValue("@correo", (object?)cliente.Correo ?? DBNull.Value);
-        cmd.Parameters.AddWithValue("@direccion", (object?)cliente.Direccion ?? DBNull.Value);
+        const string sql = """
+            SELECT id_cliente, nombre, apellido_paterno, apellido_materno,
+                   telefono, correo, direccion, fecha_registro
+            FROM cliente
+            WHERE nombre LIKE @termino
+               OR apellido_paterno LIKE @termino
+               OR apellido_materno LIKE @termino
+               OR telefono LIKE @termino
+               OR correo LIKE @termino
+            ORDER BY apellido_paterno, nombre;
+            """;
 
-        return cmd.ExecuteNonQuery() > 0;
+        using MySqlCommand cmd = new(sql, cn);
+        cmd.Parameters.AddWithValue("@termino", $"%{termino}%");
+
+        using MySqlDataReader reader = cmd.ExecuteReader();
+
+        while (reader.Read())
+            lista.Add(Mapear(reader));
+
+        return lista;
     }
 
     public Cliente? BuscarPorId(int idCliente)
@@ -80,20 +74,50 @@ public class ClienteDatos
         cmd.Parameters.AddWithValue("@idCliente", idCliente);
 
         using MySqlDataReader reader = cmd.ExecuteReader();
-        if (!reader.Read())
-            return null;
 
-        return new Cliente
-        {
-            IdCliente = reader.GetInt32("id_cliente"),
-            Nombre = reader.GetString("nombre"),
-            ApellidoPaterno = reader.GetString("apellido_paterno"),
-            ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("apellido_materno")) ? null : reader.GetString("apellido_materno"),
-            Telefono = reader.GetString("telefono"),
-            Correo = reader.IsDBNull(reader.GetOrdinal("correo")) ? null : reader.GetString("correo"),
-            Direccion = reader.IsDBNull(reader.GetOrdinal("direccion")) ? null : reader.GetString("direccion"),
-            FechaRegistro = reader.GetDateTime("fecha_registro")
-        };
+        return reader.Read() ? Mapear(reader) : null;
+    }
+
+    public int Agregar(Cliente cliente)
+    {
+        using MySqlConnection cn = Conexion.Crear();
+        cn.Open();
+
+        const string sql = """
+            INSERT INTO cliente
+                (nombre, apellido_paterno, apellido_materno, telefono, correo, direccion)
+            VALUES
+                (@nombre, @paterno, @materno, @telefono, @correo, @direccion);
+            """;
+
+        using MySqlCommand cmd = new(sql, cn);
+        AgregarParametros(cmd, cliente);
+        cmd.ExecuteNonQuery();
+
+        return Convert.ToInt32(cmd.LastInsertedId);
+    }
+
+    public bool Modificar(Cliente cliente)
+    {
+        using MySqlConnection cn = Conexion.Crear();
+        cn.Open();
+
+        const string sql = """
+            UPDATE cliente
+            SET nombre = @nombre,
+                apellido_paterno = @paterno,
+                apellido_materno = @materno,
+                telefono = @telefono,
+                correo = @correo,
+                direccion = @direccion
+            WHERE id_cliente = @idCliente;
+            """;
+
+        using MySqlCommand cmd = new(sql, cn);
+        AgregarParametros(cmd, cliente);
+        cmd.Parameters.AddWithValue("@idCliente", cliente.IdCliente);
+
+        return cmd.ExecuteNonQuery() > 0;
     }
 
     public bool TieneMascotas(int idCliente)
@@ -128,5 +152,36 @@ public class ClienteDatos
         cmd.Parameters.AddWithValue("@idCliente", idCliente);
 
         return cmd.ExecuteNonQuery() > 0;
+    }
+
+    private static void AgregarParametros(MySqlCommand cmd, Cliente cliente)
+    {
+        cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
+        cmd.Parameters.AddWithValue("@paterno", cliente.ApellidoPaterno);
+        cmd.Parameters.AddWithValue("@materno", (object?)cliente.ApellidoMaterno ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@telefono", cliente.Telefono);
+        cmd.Parameters.AddWithValue("@correo", (object?)cliente.Correo ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@direccion", (object?)cliente.Direccion ?? DBNull.Value);
+    }
+
+    private static Cliente Mapear(MySqlDataReader reader)
+    {
+        return new Cliente
+        {
+            IdCliente = reader.GetInt32("id_cliente"),
+            Nombre = reader.GetString("nombre"),
+            ApellidoPaterno = reader.GetString("apellido_paterno"),
+            ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("apellido_materno"))
+                ? null
+                : reader.GetString("apellido_materno"),
+            Telefono = reader.GetString("telefono"),
+            Correo = reader.IsDBNull(reader.GetOrdinal("correo"))
+                ? null
+                : reader.GetString("correo"),
+            Direccion = reader.IsDBNull(reader.GetOrdinal("direccion"))
+                ? null
+                : reader.GetString("direccion"),
+            FechaRegistro = reader.GetDateTime("fecha_registro")
+        };
     }
 }

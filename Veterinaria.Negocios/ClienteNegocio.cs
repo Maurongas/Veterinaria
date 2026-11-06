@@ -5,21 +5,40 @@ namespace Veterinaria.Negocios;
 
 public class ClienteNegocio
 {
-    private readonly ClienteDatos _clienteDatos;
+    private readonly ClienteDatos _datos = new();
 
-    public ClienteNegocio(ClienteDatos clienteDatos)
+    public List<Cliente> Listar() => _datos.Listar();
+
+    public List<Cliente> Buscar(string? termino)
     {
-        _clienteDatos = clienteDatos;
+        if (string.IsNullOrWhiteSpace(termino))
+            return _datos.Listar();
+
+        return _datos.Buscar(termino.Trim());
     }
 
-    public List<Cliente> ObtenerTodos() => _clienteDatos.ObtenerTodos();
-
-    public bool Agregar(Cliente cliente)
+    public Cliente? BuscarPorId(int idCliente)
     {
-        if (string.IsNullOrWhiteSpace(cliente.Nombre) || string.IsNullOrWhiteSpace(cliente.ApellidoPaterno))
-            throw new ArgumentException("El nombre y apellido paterno son obligatorios.");
+        if (idCliente <= 0)
+            return null;
 
-        return _clienteDatos.Agregar(cliente);
+        return _datos.BuscarPorId(idCliente);
+    }
+
+    public int Agregar(Cliente cliente)
+    {
+        Validar(cliente);
+        return _datos.Agregar(cliente);
+    }
+
+    public bool Modificar(Cliente cliente)
+    {
+        Validar(cliente);
+
+        if (cliente.IdCliente <= 0)
+            throw new ArgumentException("Cliente no válido.");
+
+        return _datos.Modificar(cliente);
     }
 
     public bool Eliminar(int idCliente)
@@ -27,17 +46,31 @@ public class ClienteNegocio
         if (idCliente <= 0)
             throw new ArgumentException("Cliente no válido.");
 
-        Cliente? cliente = _clienteDatos.BuscarPorId(idCliente);
+        Cliente? cliente = _datos.BuscarPorId(idCliente);
 
         if (cliente is null)
             return false;
 
-        if (_clienteDatos.TieneMascotas(idCliente))
+        if (_datos.TieneMascotas(idCliente))
         {
             throw new ReglaNegocioException(
-                "No se puede eliminar el cliente porque tiene mascotas registradas.");
+                "No se puede eliminar el cliente " +
+                "porque tiene mascotas registradas.");
         }
 
-        return _clienteDatos.Eliminar(idCliente);
+        return _datos.Eliminar(idCliente);
+    }
+
+    private static void Validar(Cliente cliente)
+    {
+        if (string.IsNullOrWhiteSpace(cliente.Nombre) ||
+            string.IsNullOrWhiteSpace(cliente.ApellidoPaterno))
+        {
+            throw new ArgumentException(
+                "El nombre y apellido paterno son obligatorios.");
+        }
+
+        if (string.IsNullOrWhiteSpace(cliente.Telefono))
+            throw new ArgumentException("El teléfono es obligatorio.");
     }
 }

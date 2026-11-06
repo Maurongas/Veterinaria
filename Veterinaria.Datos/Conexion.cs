@@ -6,7 +6,10 @@ public class Conexion
 {
     public static string CadenaConexion { get; set; } = string.Empty;
 
-    public string ObtenerCadena() => CadenaConexion;
+    public static MySqlConnection Crear()
+    {
+        return new MySqlConnection(CadenaConexion);
+    }
 
-    public static MySqlConnection Crear() => new(CadenaConexion);
+    public string ObtenerCadena() => CadenaConexion;
 }
