@@ -5,17 +5,23 @@ namespace Veterinaria.Datos;
 
 public class ClienteDatos
 {
-    private readonly Conexion _conexion;
-
-    public ClienteDatos(Conexion conexion)
+    public ClienteDatos()
     {
-        _conexion = conexion;
+    }
+
+    public int ObtenerTotalClientes()
+    {
+        using var conn = new MySqlConnection(Conexion.CadenaConexion);
+        conn.Open();
+
+        using var cmd = new MySqlCommand("SELECT COUNT(*) FROM Cliente;", conn);
+        return Convert.ToInt32(cmd.ExecuteScalar());
     }
 
     public List<Cliente> ObtenerTodos()
     {
         var lista = new List<Cliente>();
-        using var conn = new MySqlConnection(_conexion.ObtenerCadena());
+        using var conn = new MySqlConnection(Conexion.CadenaConexion);
         conn.Open();
 
         string query = "SELECT id_cliente, nombre, apellido_paterno, apellido_materno, telefono, correo, direccion, fecha_registro FROM clientes ORDER BY apellido_paterno, nombre;";
@@ -41,7 +47,7 @@ public class ClienteDatos
 
     public bool Agregar(Cliente cliente)
     {
-        using var conn = new MySqlConnection(_conexion.ObtenerCadena());
+        using var conn = new MySqlConnection(Conexion.CadenaConexion);
         conn.Open();
 
         string query = @"INSERT INTO clientes (nombre, apellido_paterno, apellido_materno, telefono, correo, direccion) 
