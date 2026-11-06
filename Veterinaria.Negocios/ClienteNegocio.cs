@@ -21,4 +21,23 @@ public class ClienteNegocio
 
         return _clienteDatos.Agregar(cliente);
     }
+
+    public bool Eliminar(int idCliente)
+    {
+        if (idCliente <= 0)
+            throw new ArgumentException("Cliente no válido.");
+
+        Cliente? cliente = _clienteDatos.BuscarPorId(idCliente);
+
+        if (cliente is null)
+            return false;
+
+        if (_clienteDatos.TieneMascotas(idCliente))
+        {
+            throw new ReglaNegocioException(
+                "No se puede eliminar el cliente porque tiene mascotas registradas.");
+        }
+
+        return _clienteDatos.Eliminar(idCliente);
+    }
 }
