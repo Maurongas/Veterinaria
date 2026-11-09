@@ -1,0 +1,46 @@
+﻿@page "{id:int}"
+@model Veterinaria.Web.Pages.Clientes.EliminarModel
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+}
+
+<div class="container py-4">
+    <h1>Eliminar Cliente</h1>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <div class="alert alert-danger">
+            @Model.Error
+        </div>
+    }
+
+    @if (string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <div class="alert alert-warning">
+            ¿Desea eliminar al cliente
+            <strong>
+                @Model.Cliente.Nombre
+                @Model.Cliente.ApellidoPaterno
+            </strong>?
+        </div>
+
+        <form method="post">
+            <button type="submit"
+                    class="btn btn-danger">
+                Eliminar
+            </button>
+
+            <a asp-page="./Index"
+               class="btn btn-secondary">
+                Cancelar
+            </a>
+        </form>
+    }
+    else
+    {
+        <a asp-page="./Index"
+           class="btn btn-secondary">
+            Regresar
+        </a>
+    }
+</div>
