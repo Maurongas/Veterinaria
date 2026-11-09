@@ -5,6 +5,10 @@
     <ProjectReference Include="..\Veterinaria.Entidades\Veterinaria.Entidades.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
