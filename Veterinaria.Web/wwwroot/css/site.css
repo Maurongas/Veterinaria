@@ -1,16 +1,17 @@
 /* Veterinaria.Web - tema visual. Cargar DESPUÉS de bootstrap. */
 :root {
-    --tinta: #1d2650;
-    --primario: #4f6bed;
-    --primario-osc: #3a52c9;
-    --acento: #ffb08a;
-    --fondo: #f2f4fc;
-    --velo: #e8ecfb;
-    --papel: #fff;
-    --linea: #dfe4f5;
-    --texto: #222b52;
-    --suave: #69729a;
-    --rojo: #d9455f;
+    --petroleo: #167F9A;
+    --petroleo-osc: #0f6379;
+    --tinta: #0e3a47;
+    --hielo: #E6F6F5;
+    --velo: #d3ecec;
+    --papel: #fbfefe;
+    --coral: #FF6B6B;
+    --coral-osc: #f04f4f;
+    --linea: #c4e3e3;
+    --texto: #18424f;
+    --suave: #4b7480;
+    --rojo: #e04848;
     --display: "Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
     --cuerpo: "Figtree","Segoe UI",system-ui,sans-serif;
 }
@@ -21,19 +22,19 @@ html, body {
 
 body {
     margin: 0;
-    background: var(--fondo);
+    background: var(--hielo);
     color: var(--texto);
     font-family: var(--cuerpo);
     line-height: 1.55
 }
 
 :focus-visible {
-    outline: 3px solid var(--acento);
+    outline: 3px solid var(--coral);
     outline-offset: 2px
 }
 
 a {
-    color: var(--primario-osc)
+    color: var(--petroleo-osc)
 }
 
 /* ---------- Estructura ---------- */
@@ -48,7 +49,7 @@ a {
     top: 0;
     height: 100vh;
     overflow-y: auto;
-    background: var(--tinta);
+    background: var(--petroleo);
     color: #fff;
     padding: 1.5rem 1rem;
     display: flex;
@@ -71,13 +72,14 @@ a {
 
 .marca-logo {
     flex: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 14px;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
     background: #fff;
-    padding: 5px;
+    padding: 6px;
     display: grid;
-    place-items: center
+    place-items: center;
+    overflow: hidden
 }
 
     .marca-logo img {
@@ -89,7 +91,7 @@ a {
 .marca-nombre {
     font-family: var(--display);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.15
 }
 
@@ -98,7 +100,7 @@ a {
         font-family: var(--cuerpo);
         font-weight: 500;
         font-size: .8rem;
-        color: #a9b4e6
+        color: #d6eff4
     }
 
 .menu {
@@ -113,20 +115,20 @@ a {
         gap: .75rem;
         padding: .7rem .9rem;
         border-radius: 12px;
-        color: #c3cbee;
+        color: #f0fafc;
         font-weight: 500;
         text-decoration: none;
         transition: background .15s,color .15s
     }
 
         .menu a:hover {
-            background: rgba(255,255,255,.09);
+            background: rgba(255,255,255,.14);
             color: #fff
         }
 
         .menu a.activo {
-            background: var(--acento);
-            color: var(--tinta);
+            background: #fff;
+            color: var(--petroleo-osc);
             font-weight: 700
         }
 
@@ -144,11 +146,11 @@ a {
 .menu-sub {
     margin: 1rem .9rem .25rem;
     font-size: .82rem;
-    color: #8e99cf
+    color: #d6eff4
 }
 
 .menu a.tenue {
-    opacity: .75
+    opacity: .85
 }
 
 .principal {
@@ -187,7 +189,7 @@ a {
         position: fixed;
         inset: 0;
         z-index: 1030;
-        background: rgba(29,38,80,.5)
+        background: rgba(14,58,71,.5)
     }
 
     .barra-movil {
@@ -195,7 +197,7 @@ a {
         align-items: center;
         gap: .8rem;
         padding: .8rem 1rem;
-        background: var(--tinta);
+        background: var(--petroleo);
         color: #fff;
         position: sticky;
         top: 0;
@@ -255,27 +257,27 @@ h1 {
 }
 
 .btn-primary {
-    background: var(--primario);
-    border-color: var(--primario);
+    background: var(--petroleo);
+    border-color: var(--petroleo);
     color: #fff
 }
 
     .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-        background: var(--primario-osc);
-        border-color: var(--primario-osc);
+        background: var(--petroleo-osc);
+        border-color: var(--petroleo-osc);
         color: #fff
     }
 
 .btn-success {
-    background: var(--acento);
-    border-color: var(--acento);
+    background: var(--coral);
+    border-color: var(--coral);
     color: var(--tinta)
 }
 
     .btn-success:hover, .btn-success:focus, .btn-success:active {
-        background: #ff9d6e;
-        border-color: #ff9d6e;
-        color: var(--tinta)
+        background: var(--coral-osc);
+        border-color: var(--coral-osc);
+        color: #fff
     }
 
 .btn-secondary {
@@ -285,8 +287,8 @@ h1 {
 }
 
     .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
-        background: #d8def6;
-        border-color: #d8def6;
+        background: #c1e2e2;
+        border-color: #c1e2e2;
         color: var(--tinta)
     }
 
@@ -297,50 +299,50 @@ h1 {
 }
 
     .btn-danger:hover, .btn-danger:focus, .btn-danger:active {
-        background: #b83650;
-        border-color: #b83650;
+        background: #c23a3a;
+        border-color: #c23a3a;
         color: #fff
     }
 
 .btn-outline-primary {
-    border-color: var(--primario);
-    color: var(--primario-osc);
+    border-color: var(--petroleo);
+    color: var(--petroleo-osc);
     background: transparent
 }
 
     .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
-        background: var(--primario);
-        border-color: var(--primario);
+        background: var(--petroleo);
+        border-color: var(--petroleo);
         color: #fff
     }
 
 .btn-outline-secondary {
-    border-color: #b9c3e6;
+    border-color: #9fcbd0;
     color: var(--tinta);
     background: transparent
 }
 
     .btn-outline-secondary:hover, .btn-outline-secondary:focus, .btn-outline-secondary:active {
         background: var(--velo);
-        border-color: #b9c3e6;
+        border-color: #9fcbd0;
         color: var(--tinta)
     }
 
 .btn-outline-success {
-    border-color: #f0955f;
-    color: #8a4217;
+    border-color: var(--coral);
+    color: #b53a3a;
     background: transparent
 }
 
     .btn-outline-success:hover, .btn-outline-success:focus, .btn-outline-success:active {
-        background: var(--acento);
-        border-color: var(--acento);
+        background: var(--coral);
+        border-color: var(--coral);
         color: var(--tinta)
     }
 
 .btn-outline-danger {
     border-color: var(--rojo);
-    color: var(--rojo);
+    color: #c23a3a;
     background: transparent
 }
 
@@ -366,12 +368,12 @@ h1 {
 }
 
     .form-control:focus, .form-select:focus {
-        border-color: var(--primario);
-        box-shadow: 0 0 0 4px rgba(79,107,237,.18)
+        border-color: var(--petroleo);
+        box-shadow: 0 0 0 4px rgba(22,127,154,.18)
     }
 
     .form-control::placeholder {
-        color: #9aa3c7
+        color: #8fb0b8
     }
 
 .input-validation-error {
@@ -402,8 +404,8 @@ h1 {
 
 .table {
     --bs-table-bg: transparent;
-    --bs-table-striped-bg: #f7f8fe;
-    --bs-table-hover-bg: #eceffd;
+    --bs-table-striped-bg: #f1fafa;
+    --bs-table-hover-bg: #e0f2f2;
     --bs-table-striped-color: var(--texto);
     --bs-table-hover-color: var(--texto);
     margin: 0;
@@ -421,7 +423,7 @@ h1 {
 
     .table td {
         padding: .85rem 1rem;
-        border-color: #ebeefa
+        border-color: #e0efef
     }
 
 .table-sm td, .table-sm th {
@@ -464,27 +466,27 @@ dl.row {
 }
 
 .alert-success {
-    background: #e2f5ec;
-    color: #14604a;
+    background: #d9f3ea;
+    color: #0f5a46;
     border-color: #2fa77a
 }
 
 .alert-danger {
-    background: #fde8ec;
-    color: #8c1d36;
-    border-color: var(--rojo)
+    background: #ffe5e5;
+    color: #8f2525;
+    border-color: var(--coral)
 }
 
 .alert-warning {
-    background: #fff0e3;
-    color: #7a4010;
-    border-color: var(--acento)
+    background: #fff1dc;
+    color: #7a4a10;
+    border-color: #f2a950
 }
 
 .alert-info {
-    background: #e6edff;
-    color: #26407f;
-    border-color: var(--primario)
+    background: #d9eef5;
+    color: #0f4f63;
+    border-color: var(--petroleo)
 }
 
 /* ---------- Tarjetas genéricas ---------- */
@@ -500,8 +502,8 @@ dl.row {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    background: var(--velo);
-    border: 1px solid var(--linea);
+    background: rgba(22,127,154,.09);
+    border: 1px solid rgba(22,127,154,.2);
     border-radius: 28px;
     padding: clamp(1.5rem,4vw,2.5rem);
     margin-bottom: 1.5rem
@@ -516,7 +518,6 @@ dl.row {
 .hero h1 {
     font-size: clamp(1.9rem,4vw,2.9rem);
     line-height: 1.08;
-    max-width: 14ch;
     margin: 0
 }
 
@@ -538,7 +539,7 @@ dl.row {
 }
 
     .hero-logo img {
-        width: clamp(110px,18vw,190px);
+        width: clamp(120px,18vw,200px);
         height: auto;
         object-fit: contain
     }
@@ -564,7 +565,7 @@ dl.row {
 }
 
     .mod:hover {
-        border-color: var(--primario);
+        border-color: var(--petroleo);
         color: var(--texto);
         transform: translateY(-2px)
     }
@@ -573,8 +574,8 @@ dl.row {
     width: 48px;
     height: 48px;
     border-radius: 14px;
-    background: #e3e8fd;
-    color: var(--primario-osc);
+    background: var(--velo);
+    color: var(--petroleo-osc);
     display: grid;
     place-items: center;
     margin-bottom: .6rem
