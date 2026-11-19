@@ -36,3 +36,15 @@ Orden recomendado:
 3. 02_pruebas.sql
 4. 03_verificacion_p6.sql
 5. 04_verificacion_final_p7.sql
+
+## Respaldo final
+
+Archivo:
+`backups/respaldo_veterinaria_p7.sql`
+
+Estado:
+generado después de aprobar P7.
+
+Restauración:
+- si el dump incluye CREATE DATABASE, ejecutarlo directamente;
+- si no lo incluye, ejecutar antes `00_crear_bd.sql`.
