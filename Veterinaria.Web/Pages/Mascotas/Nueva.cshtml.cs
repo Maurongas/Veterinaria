@@ -43,9 +43,8 @@ public class NuevaModel : PageModel
         {
             System.Diagnostics.Debug.WriteLine(ex);
 
-            ModelState.AddModelError(
-                string.Empty,
-                "No fue posible cargar los clientes.");
+            Error =
+                "No fue posible cargar los clientes.";
 
             return Page();
         }
