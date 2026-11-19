@@ -633,3 +633,28 @@ dl.row {
         transform: none
     }
 }
+
+.app > *,
+main {
+    min-width: 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+/* Clases usadas en las vistas del profe */
+.btn-florecitas {
+    background: var(--petroleo);
+    border-color: var(--petroleo);
+    color: #fff;
+}
+
+    .btn-florecitas:hover, .btn-florecitas:focus, .btn-florecitas:active {
+        background: var(--petroleo-osc);
+        border-color: var(--petroleo-osc);
+        color: #fff;
+    }
+
+.card-florecitas {
+    background: var(--papel);
+}

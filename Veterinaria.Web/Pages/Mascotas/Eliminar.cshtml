@@ -21,17 +21,14 @@
     else
     {
         <div class="alert alert-warning">
-            ¿Desea eliminar a
-            <strong>@Model.Mascota.Nombre</strong>?
-        </div>
-
-        <p>
-            Propietario:
+            ¿Desea eliminar a la mascota
+            <strong>@Model.Mascota.Nombre</strong>,
+            propiedad de
             <strong>
                 @Model.Propietario.Nombre
                 @Model.Propietario.ApellidoPaterno
-            </strong>
-        </p>
+            </strong>?
+        </div>
 
         <form method="post">
             <button type="submit"

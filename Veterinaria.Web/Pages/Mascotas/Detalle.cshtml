@@ -7,35 +7,61 @@
 <div class="container py-4">
     <h1>Detalle de Mascota</h1>
 
-    <dl class="row">
-        <dt class="col-sm-3">Nombre</dt>
-        <dd class="col-sm-9">@Model.Mascota.Nombre</dd>
+    @if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <div class="alert alert-danger">
+            @Model.Error
+        </div>
 
-       
-        <dt class="col-sm-3">Propietario</dt>
-        <dd class="col-sm-9">
-            @Model.Propietario.Nombre
-            @Model.Propietario.ApellidoPaterno
-            @Model.Propietario.ApellidoMaterno
-        </dd>
-       
-        <dt class="col-sm-3">Especie</dt>
-        <dd class="col-sm-9">@Model.Mascota.Especie</dd>
+        <a asp-page="./Index" class="btn btn-secondary">
+            Regresar
+        </a>
+    }
+    else
+    {
+        <dl class="row">
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model.Mascota.Nombre</dd>
 
-        <dt class="col-sm-3">Raza</dt>
-        <dd class="col-sm-9">@Model.Mascota.Raza</dd>
+            <dt class="col-sm-3">Propietario</dt>
+            <dd class="col-sm-9">
+                @Model.Propietario.Nombre
+                @Model.Propietario.ApellidoPaterno
+                @Model.Propietario.ApellidoMaterno
+            </dd>
 
-        <dt class="col-sm-3">Sexo</dt>
-        <dd class="col-sm-9">@Model.Mascota.Sexo</dd>
-    </dl>
+            <dt class="col-sm-3">Especie</dt>
+            <dd class="col-sm-9">@Model.Mascota.Especie</dd>
 
-    <a asp-page="./Editar"
-       asp-route-id="@Model.Mascota.IdMascota"
-       class="btn btn-primary">
-        Editar
-    </a>
+            <dt class="col-sm-3">Raza</dt>
+            <dd class="col-sm-9">@Model.Mascota.Raza</dd>
 
-    <a asp-page="./Index" class="btn btn-secondary">
-        Regresar
-    </a>
+            <dt class="col-sm-3">Sexo</dt>
+            <dd class="col-sm-9">@Model.Mascota.Sexo</dd>
+
+            <dt class="col-sm-3">Fecha de nacimiento</dt>
+            <dd class="col-sm-9">
+                @(Model.Mascota.FechaNacimiento.HasValue
+                    ? Model.Mascota.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+                    : "No registrada")
+            </dd>
+
+            <dt class="col-sm-3">Color</dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Mascota.Color)
+                    ? "No registrado"
+                    : Model.Mascota.Color)
+            </dd>
+        </dl>
+
+        <a asp-page="./Editar"
+           asp-route-id="@Model.Mascota.IdMascota"
+           class="btn btn-primary">
+            Editar
+        </a>
+
+        <a asp-page="./Index" class="btn btn-secondary">
+            Regresar
+        </a>
+    }
 </div>
